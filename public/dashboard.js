@@ -1,53 +1,32 @@
 (function() {
-    let currentAuthEmail = null;
+    let currentUserEmail = null;
 
     document.addEventListener("DOMContentLoaded", function() {
         startClock();
         renderHeatmap();
         renderTrendLineChart();
         setupLiveConsole();
-        initRealGoogleAuth(); // 진짜 구글 버튼 렌더링 호출
     });
 
-    // 🚀 [해결책] 교수님 직접 입력 로그인 핸들러
-    window.handleManualLogin = function() {
-        const email = document.getElementById("prof-email-input").value;
-        if(!email) {
-            alert("시스템 접속을 위해 교수님의 이메일을 입력해주세요.");
-            return;
-        }
-        const name = email.split('@')[0]; // 이메일 앞부분을 이름으로 사용
-        executeFinalLogin(name, email);
-    };
+    // 🚀 [버그 완벽 해결] 로그인 버튼 클릭 시 발생하는 함수. 끊어진 CSS 클래스와 100% 매칭
+    window.doLogin = function() {
+        const emailInput = document.getElementById("prof-email").value;
+        const email = emailInput ? emailInput : "professor@hufs.ac.kr"; // 미입력 시 기본값 처리
+        const name = email.split('@')[0];
 
-    // 🚀 [진짜 구글 API 연동] (GCP 클라이언트 ID 발급 시 401 오류 소멸됨)
-    function initRealGoogleAuth() {
-        if (window.google && google.accounts) {
-            google.accounts.id.initialize({
-                // 주의: 과제 제출 테스트용이므로 임시 ID 삽입. 나중에 GCP 등록 필요
-                client_id: "123456789-hufs-test-client.apps.googleusercontent.com",
-                callback: function(response) {
-                    executeFinalLogin("Google User", "google-auth@hufs.ac.kr");
-                }
-            });
-            google.accounts.id.renderButton(
-                document.getElementById("real-google-auth-div"),
-                { theme: "outline", size: "large", width: "100%" }
-            );
-        }
-    }
-
-    function executeFinalLogin(name, email) {
-        currentAuthEmail = email;
-        document.getElementById("user-display-name").innerText = `${name} (${email})`;
-        document.getElementById("input-target-email").value = email;
-
-        // 화면 전환 처리
-        document.getElementById("auth-welcome-screen").classList.add("hidden-stage");
-        document.getElementById("main-dashboard-viewport").classList.remove("hidden-stage");
+        currentUserEmail = email;
         
-        setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
-    }
+        // 1. 대시보드 프로필에 교수님 이메일 즉시 적용
+        document.getElementById("user-display-name").innerText = `${name} (${email})`;
+        document.getElementById("mail-input").value = email;
+
+        // 2. 로그인 창 영구 소멸 & 메인 대시보드 강제 출력
+        document.getElementById("auth-stage").classList.add("hidden");
+        document.getElementById("dash-stage").classList.remove("hidden");
+        
+        // 3. 차트 크기 깨짐 방지용 리사이징 트리거
+        setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
+    };
 
     function startClock() {
         const target = document.getElementById("current-time");
@@ -58,59 +37,63 @@
         }, 1000);
     }
 
-    // 서버 로그 콘솔 시뮬레이터
+    // 사내 메신저 작동
+    window.sendChat = function() {
+        const input = document.getElementById("chat-input");
+        const box = document.getElementById("chat-box");
+        if(!input.value.trim()) return;
+        
+        const userName = currentUserEmail ? currentUserEmail.split('@')[0] : "사용자";
+        box.innerHTML += `<div class="msg"><strong>${userName}:</strong> ${input.value}</div>`;
+        input.value = ""; 
+        box.scrollTop = box.scrollHeight;
+    };
+
+    // 결산 메일 발송 작동
+    window.sendMail = function() {
+        const target = document.getElementById("mail-input").value;
+        alert(`🚀 [시스템 알림]\n${target} 주소로 일일 결산 분석 리포트가 발송되었습니다.`);
+    };
+
+    // 영수증 AI 분석 작동
+    window.triggerAI = function() {
+        const btn = document.getElementById("ai-btn");
+        btn.innerText = "분석 진행 중...";
+        setTimeout(() => {
+            btn.innerText = "✅ 세법 적합 (Risk 0%)";
+            btn.style.background = "#00f0ff";
+            btn.style.color = "#0b0f19";
+        }, 800);
+    };
+
+    // 실시간 서버 로그 가동
     function setupLiveConsole() {
-        const consoleBox = document.getElementById("live-system-console");
+        const consoleBox = document.getElementById("log-box");
         if(!consoleBox) return;
         const logs = [
-            "[NET] Connected to HUFS proxy backbone network.",
-            "[DB] Cache replication synchronized successfully.",
-            "[SYS] CPU load factor stable at 12%.",
-            "[AI] Invoice tagging model checked.",
-            "[SEC] SSL certificate validation: Verified."
+            "[NET] Connected to HUFS backbone network.",
+            "[DB] Cache replication synchronized.",
+            "[SYS] CPU load factor stable.",
+            "[AI] Invoice tagging model active.",
+            "[SEC] SSL certificate verified."
         ];
         setInterval(() => {
             const timeStr = new Date().toLocaleTimeString();
             const randomLog = logs[Math.floor(Math.random() * logs.length)];
             consoleBox.innerHTML += `<div>[${timeStr}] ${randomLog}</div>`;
             consoleBox.scrollTop = consoleBox.scrollHeight;
-        }, 3000);
+        }, 2500);
     }
 
-    window.sendSnsMessage = function() {
-        const input = document.getElementById("input-chat-msg");
-        const box = document.getElementById("chat-stream-box");
-        if(!input.value.trim()) return;
-        
-        box.innerHTML += `<div class="msg"><strong>${currentAuthEmail ? "사용자" : "시스템"}:</strong> ${input.value}</div>`;
-        input.value = ""; 
-        box.scrollTop = box.scrollHeight;
-    };
-
-    window.dispatchEmail = function() {
-        const target = document.getElementById("input-target-email").value;
-        alert(`🚀 ${target} 주소로 결산 리포트가 발송되었습니다.`);
-    };
-
-    window.triggerAI = function() {
-        const btn = document.getElementById("ai-btn");
-        btn.innerText = "분석 중...";
-        setTimeout(() => {
-            btn.innerText = "✅ 적합 (Risk 0%)";
-            btn.style.background = "#00f0ff";
-            btn.style.color = "#0b0f19";
-        }, 800);
-    };
-
     function renderHeatmap() {
-        const m = document.getElementById("productivity-heatmap");
+        const m = document.getElementById("heatmap-container");
         if(!m) return;
         const colors = ['#151a2d','#232b45','#ff3366','#232b45','#0b0f19','#00f0ff','#ff3366','#232b45','#151a2d','#0b0f19'];
-        m.innerHTML = colors.map(c => `<div style="background:${c}; border-radius:2px;"></div>`).join('');
+        m.innerHTML = colors.map(c => `<div style="background:${c};"></div>`).join('');
     }
 
     function renderTrendLineChart() {
-        const ctx = document.getElementById('workTrendChart');
+        const ctx = document.getElementById('trendChart');
         if(!ctx) return;
         new Chart(ctx, {
             type: 'line',
