@@ -2,189 +2,31 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>융합 데이터 행정 마스터 시스템</title>
+    <title>융합 데이터 행정 통합 고도화 마스터 시스템</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- ✅ [추가] Google Identity Services 공식 라이브러리 -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <div id="auth-stage" class="auth-stage">
-        <div class="login-card">
-            <div class="login-logo">⚡</div>
+        <div class="hufs-premium-login-card">
+            <div class="hufs-logo">HUFS</div>
             <h2>행정업무 통합 대시보드</h2>
-            <p class="login-sub">한국외대 차이나데이터큐레이션 · 남수호</p>
+            <p class="subtitle">차이나데이터큐레이션전공 · 남수호 (2022304606)</p>
             
-            <div class="login-form">
+            <div class="manual-login-section">
                 <label>시스템 접근 계정 (교수님 채점용)</label>
-
-                <!-- ✅ [변경] 기존 이메일 input + 버튼 → 구글 공식 로그인 버튼 영역으로 교체 -->
-                <!--
-                    ① GSI가 정상 초기화되면 이 div 안에 구글 공식 버튼이 자동 렌더링됩니다.
-                    ② Client ID가 없거나 GSI 로드에 실패하면 아래 fallback 버튼이 대신 표시됩니다.
-                -->
-                <div id="google-button-div" style="min-height: 44px; display: flex; justify-content: center; margin: 12px 0;"></div>
-
-                <!-- Fallback: GSI 로드 실패 시 표시되는 대체 버튼 -->
-                <button id="fallback-login-btn" class="btn-submit" style="display: none;" onclick="window.doFallbackLogin()">
-                    🔑 임시 접속 (Client ID 미설정)
-                </button>
+                <input type="email" id="prof-email" placeholder="이메일 입력">
+                <input type="password" id="prof-pw" placeholder="비밀번호 입력">
+                <button class="btn-primary-login" onclick="window.doLogin()">보안 전산망 접속</button>
             </div>
-            
-            <div class="login-footer">© 2026 NAM SUHO. System Ready.</div>
+            <footer class="gate-bottom-copyright">© 2026 NAM SUHO. System Ready.</footer>
         </div>
     </div>
 
-    <div id="dash-stage" class="dash-stage hidden">
-        
-        <header class="top-header">
-            <div class="profile-info">
-                <div class="avatar">수</div>
-                <div>
-                    <h1 id="user-display-name">남수호</h1>
-                    <p>마스터 관리자 권한</p>
-                </div>
-            </div>
-            <div class="header-stats">
-                <div class="stat-item"><span>총 결재</span><strong>32건</strong></div>
-                <div class="stat-item"><span>대기중</span><strong class="text-cyan">5건</strong></div>
-                <div class="stat-item"><span>긴급(D-1)</span><strong class="text-alert">3건</strong></div>
-                <div class="stat-item"><span>서버 CPU</span><strong class="text-mint">12%</strong></div>
-                <div class="stat-item"><span>메모리</span><strong class="text-mint">4.2GB</strong></div>
-            </div>
-            <div class="header-time" id="current-time">00:00:00</div>
-        </header>
-
-        <div class="bento-grid">
-            
-            <div class="b-col">
-                <div class="b-card">
-                    <h3>🤖 AI 데일리 브리핑</h3>
-                    <div class="b-item alert"><span class="badge bg-alert">1순위</span> Q2 실적보고서 결재</div>
-                    <div class="b-item cyan"><span class="badge bg-cyan">2순위</span> 임원회의실 세팅</div>
-                </div>
-                <div class="b-card tall">
-                    <h3>📋 TO-DO (우선순위)</h3>
-                    <ul class="b-list">
-                        <li><span class="tag alert">결재</span> 실적보고서 송신</li>
-                        <li><span class="tag cyan">회의</span> 하드웨어 점검</li>
-                        <li><span class="tag mint">행정</span> 비품 재고 파악</li>
-                        <li><span class="tag mint">행정</span> 메일 회신 완료</li>
-                    </ul>
-                </div>
-                <div class="b-card">
-                    <h3>⏳ D-Day 카운터</h3>
-                    <div class="d-box"><div class="d-cir alert">1</div>임원회의 마감</div>
-                    <div class="d-box"><div class="d-cir cyan">8</div>하계 워크샵</div>
-                </div>
-            </div>
-
-            <div class="b-col">
-                <div class="b-card">
-                    <h3>📊 결재 문서 트래커</h3>
-                    <div class="flex-around">
-                        <div class="c-stat"><strong class="text-cyan">28</strong><span>승인</span></div>
-                        <div class="c-stat"><strong class="text-alert">1</strong><span>반려</span></div>
-                        <div class="c-stat"><strong class="text-mint">3</strong><span>대기</span></div>
-                    </div>
-                </div>
-                <div class="b-card">
-                    <h3>🔥 시간대별 히트맵</h3>
-                    <div class="heatmap" id="heatmap-container"></div>
-                </div>
-                <div class="b-card">
-                    <h3>⚙️ 루틴 자동화 제어</h3>
-                    <div class="t-row"><span>09시 AI 브리핑</span><div class="t-btn">ON</div></div>
-                    <div class="t-row"><span>매주 금요 보고서</span><div class="t-btn">ON</div></div>
-                </div>
-                <div class="b-card">
-                    <h3>💵 실시간 자산 환율</h3>
-                    <div class="flex-around">
-                        <div class="c-stat"><strong class="text-cyan">1,378.6</strong><span>USD/KRW</span></div>
-                        <div class="c-stat"><strong class="text-mint">8.92</strong><span>JPY/KRW</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="b-col" style="flex: 1.3;">
-                <div class="b-card tall">
-                    <h3>📈 업무 진척도 트렌드</h3>
-                    <div class="chart-wrapper"><canvas id="trendChart"></canvas></div>
-                </div>
-                <div class="b-card tall">
-                    <h3>🧠 프로젝트 SWOT 분석</h3>
-                    <div class="swot-grid">
-                        <div class="s-box cyan"><strong>강점(S)</strong><p>AI 도입으로 속도 40%↑</p></div>
-                        <div class="s-box alert"><strong>약점(W)</strong><p>소모품 예산 80% 고갈</p></div>
-                        <div class="s-box mint"><strong>기회(O)</strong><p>신규 모듈 안정화</p></div>
-                        <div class="s-box gold"><strong>위협(T)</strong><p>결재 라인 상습 병목</p></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="b-col">
-                <div class="b-card tall">
-                    <h3>📅 2026년 5월 캘린더</h3>
-                    <div class="cal-grid">
-                        <div class="c-head">일</div><div class="c-head">월</div><div class="c-head">화</div><div class="c-head">수</div><div class="c-head">목</div><div class="c-head">금</div><div class="c-head">토</div>
-                        <div>24</div><div>25</div><div>26</div><div class="today">27</div><div>28</div><div>29</div><div>30</div>
-                        <div class="fade">31</div><div class="fade">1</div><div class="fade">2</div><div class="fade">3</div><div class="fade">4</div><div class="fade">5</div><div class="fade">6</div>
-                    </div>
-                </div>
-                <div class="b-card">
-                    <h3>✅ 반복 체크리스트</h3>
-                    <ul class="b-list">
-                        <li class="done">출근 후 메일 확인 ✔</li>
-                        <li class="done">오전 결재 처리 ✔</li>
-                        <li>일일 업무일지 작성</li>
-                    </ul>
-                </div>
-                <div class="b-card">
-                    <h3>👥 팀 접속 스캐너</h3>
-                    <div class="team-row"><div class="dot"></div>김팀장 (결재중)</div>
-                    <div class="team-row"><div class="dot"></div>남수호 (전산망)</div>
-                </div>
-            </div>
-
-            <div class="b-col" style="flex: 1.2;">
-                <div class="b-card">
-                    <h3>💬 사내 메신저 & AI 챗봇</h3>
-                    <div class="chat-box" id="chat-box">
-                        <div class="msg"><strong>시스템:</strong> 로그인 완료.</div>
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" id="chat-input" onkeypress="if(event.key==='Enter') window.sendChat()">
-                        <button onclick="window.sendChat()">전송</button>
-                    </div>
-                </div>
-                <div class="b-card">
-                    <h3>🖥️ 서버 리소스 로그</h3>
-                    <div class="log-box" id="log-box">
-                        <div>[SYS] System Initialized.</div>
-                    </div>
-                </div>
-                <div class="b-card">
-                    <h3>💳 영수증 AI 분석 (Img 26)</h3>
-                    <div class="upload-box" onclick="window.triggerAI()">
-                        <p>📁 HFHSZV60.pdf</p>
-                        <span id="ai-btn">AI 검역 시작</span>
-                    </div>
-                </div>
-                <div class="b-card">
-                    <h3>🚀 자동 메일 허브</h3>
-                    <div class="chat-input">
-                        <input type="email" id="mail-input" value="professor@hufs.ac.kr">
-                        <button onclick="window.sendMail()">발송</button>
-                    </div>
-                </div>
-            </div>
-
+    <div id="dash-stage" class="screen-master-container hidden">
         </div>
-    </div>
-
+    
     <script src="dashboard.js"></script>
 </body>
 </html>
