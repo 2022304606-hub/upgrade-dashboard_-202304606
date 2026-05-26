@@ -6,25 +6,36 @@
         renderHeatmap();
         renderTrendLineChart();
         setupLiveConsole();
+        initRealGoogleAuth(); // 진짜 구글 버튼 렌더링 호출
     });
 
-    // 🚀 구글 로그인 팝업 호출 (에러 없는 완벽 팝업 구현)
-    window.openGooglePopup = function() {
-        const w = 440, h = 620;
-        const left = (screen.width/2)-(w/2), top = (screen.height/2)-(h/2);
-        window.open('google-login.html', 'GoogleLogin', `width=${w},height=${h},top=${top},left=${left}`);
-    };
-
-    // 팝업으로부터 이메일 데이터 수신
-    window.addEventListener("message", function(event) {
-        if (event.data && event.data.type === "GOOGLE_AUTH_SUCCESS") {
-            executeFinalLogin(event.data.name, event.data.email);
+    // 🚀 [해결책] 교수님 직접 입력 로그인 핸들러
+    window.handleManualLogin = function() {
+        const email = document.getElementById("prof-email-input").value;
+        if(!email) {
+            alert("시스템 접속을 위해 교수님의 이메일을 입력해주세요.");
+            return;
         }
-    }, false);
-
-    window.enterViaDemoMode = function() {
-        executeFinalLogin("데모연구원", "2022304606@hufs.ac.kr");
+        const name = email.split('@')[0]; // 이메일 앞부분을 이름으로 사용
+        executeFinalLogin(name, email);
     };
+
+    // 🚀 [진짜 구글 API 연동] (GCP 클라이언트 ID 발급 시 401 오류 소멸됨)
+    function initRealGoogleAuth() {
+        if (window.google && google.accounts) {
+            google.accounts.id.initialize({
+                // 주의: 과제 제출 테스트용이므로 임시 ID 삽입. 나중에 GCP 등록 필요
+                client_id: "123456789-hufs-test-client.apps.googleusercontent.com",
+                callback: function(response) {
+                    executeFinalLogin("Google User", "google-auth@hufs.ac.kr");
+                }
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("real-google-auth-div"),
+                { theme: "outline", size: "large", width: "100%" }
+            );
+        }
+    }
 
     function executeFinalLogin(name, email) {
         currentAuthEmail = email;
@@ -47,7 +58,7 @@
         }, 1000);
     }
 
-    // 서버 로그 콘솔 시뮬레이터 (실시간 작동감 부여)
+    // 서버 로그 콘솔 시뮬레이터
     function setupLiveConsole() {
         const consoleBox = document.getElementById("live-system-console");
         if(!consoleBox) return;
@@ -71,7 +82,7 @@
         const box = document.getElementById("chat-stream-box");
         if(!input.value.trim()) return;
         
-        box.innerHTML += `<div class="msg"><strong>${currentAuthEmail ? "남수호" : "사용자"}:</strong> ${input.value}</div>`;
+        box.innerHTML += `<div class="msg"><strong>${currentAuthEmail ? "사용자" : "시스템"}:</strong> ${input.value}</div>`;
         input.value = ""; 
         box.scrollTop = box.scrollHeight;
     };

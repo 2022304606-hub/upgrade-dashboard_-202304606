@@ -1,4 +1,4 @@
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+=* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
 body { background-color: #0b0f19; color: #e2e8f0; display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; overflow: hidden; }
 
 /* 유틸리티 컬러 */
@@ -10,18 +10,26 @@ body { background-color: #0b0f19; color: #e2e8f0; display: flex; justify-content
 .bg-mint { background: #00ff9d !important; color: #0b0f19; }
 .bg-alert { background: #ff3366 !important; color: white; }
 
-/* 인트로 웰컴 뷰 */
+/* ================== ✨ 수호님 독창적 로그인 스크린 ================== */
 .auth-fullscreen-viewport { position: absolute; width: 100vw; height: 100vh; background: #0b0f19; display: flex; justify-content: center; align-items: center; z-index: 1000; }
-.welcome-auth-card { background: #151a2d; border: 1px solid #232b45; border-radius: 16px; width: 400px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(0,240,255,0.1); }
-.logo-icon { font-size: 40px; text-shadow: 0 0 15px #00f0ff; margin-bottom: 10px; }
-.welcome-auth-card h2 { color: white; font-size: 20px; margin-bottom: 5px; }
-.univ-title { font-size: 12px; color: #8f9bb3; margin-bottom: 30px; }
-.btn-google-login { width: 100%; background: white; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
-.divider { margin: 20px 0; border-top: 1px solid #232b45; position: relative; }
-.divider span { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #151a2d; padding: 0 10px; font-size: 12px; color: #8f9bb3; }
-.btn-demo { width: 100%; background: transparent; border: 1px solid #00ff9d; color: #00ff9d; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+.hufs-premium-login-card { background: #151a2d; border: 1px solid #232b45; border-radius: 16px; width: 420px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.hufs-logo { width: 60px; height: 60px; background: #00f0ff; color: #0b0f19; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; margin: 0 auto 20px auto; letter-spacing: 1px; }
+.hufs-premium-login-card h2 { color: white; font-size: 22px; text-align: center; margin-bottom: 5px; font-weight: 600; }
+.subtitle { font-size: 13px; color: #8f9bb3; text-align: center; margin-bottom: 35px; }
 
-/* 메인 스크린 구조 */
+/* 교수님 수동 입력 폼 */
+.manual-login-section { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; }
+.manual-login-section label { font-size: 11px; color: #8f9bb3; font-weight: 600; }
+.manual-login-section input { width: 100%; background: #0b0f19; border: 1px solid #232b45; color: white; padding: 14px; border-radius: 8px; font-size: 14px; outline: none; transition: border 0.2s;}
+.manual-login-section input:focus { border-color: #00f0ff; }
+.btn-primary-login { width: 100%; background: #00f0ff; color: #0b0f19; border: none; padding: 14px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+.btn-primary-login:hover { background: #00d4ff; }
+
+.divider { margin: 25px 0; border-top: 1px solid #232b45; position: relative; }
+.divider span { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #151a2d; padding: 0 10px; font-size: 11px; color: #8f9bb3; }
+.api-warning { font-size: 10px; color: #4b5563; text-align: center; margin-top: 15px; }
+
+/* ================== 📊 대시보드 구조 (이전과 완벽 동일) ================== */
 .screen-master-container { width: 100vw; height: 100vh; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
 .main-header { background: #151a2d; border: 1px solid #232b45; border-radius: 6px; padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; height: 50px; }
 .profile { display: flex; align-items: center; gap: 10px; }
@@ -34,7 +42,6 @@ body { background-color: #0b0f19; color: #e2e8f0; display: flex; justify-content
 .stat strong { font-size: 12px; }
 .header-right { font-size: 11px; color: #8f9bb3; font-weight: bold; }
 
-/* 5열 빽빽한 그리드 */
 .bento-grid { flex: 1; display: flex; gap: 8px; overflow: hidden; }
 .grid-column { display: flex; flex-direction: column; gap: 8px; flex: 1; overflow: hidden; height: 100%; }
 
@@ -43,7 +50,6 @@ body { background-color: #0b0f19; color: #e2e8f0; display: flex; justify-content
 .bento-tall { flex: 1.5; }
 .bento-standard { flex: 1; }
 
-/* 내부 컴포넌트 세부 디자인 (빈틈 방지) */
 .brief-item { background: #0b0f19; padding: 6px; border-radius: 4px; margin-bottom: 6px; border-left: 2px solid; }
 .border-alert { border-color: #ff3366; }
 .border-cyan { border-color: #00f0ff; }
