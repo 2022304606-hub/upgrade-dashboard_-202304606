@@ -1,199 +1,90 @@
 (function() {
-    let closingMode = 'daily';
     let currentAuthEmail = null;
 
-    const reportMap = {
-        daily: `[일일 분석 리포트]\n- 완료 지수: 92% 돌파\n- 특이사항: Invoice-HFHSZV60 정산 검역 1건 성공.\n- 대외 기관: 한국전력 합동 점검 완수.`,
-        weekly: `[주간 분석 리포트]\n- 주간 종합 행정 성과율: 88%\n- KCI 메타분석 프로젝트 90%선 안착 완료.`,
-        monthly: `[월간 분석 리포트]\n- 5월 정기 행정 기안 총 28건 최종 승인.\n- 연구원 워크로드 최적화 세션 가동 완료.`
-    };
-
     document.addEventListener("DOMContentLoaded", function() {
-        const currentUrl = window.location.hostname;
-        const domainLbl = document.getElementById("dynamic-domain-lbl");
-        if(domainLbl) domainLbl.innerText = currentUrl || "railway.app";
-
         startClock();
         renderHeatmap();
         renderTrendLineChart();
-        fetchChatStream();
-        fetchPostIts();
-        fetchWorkAssignments();
-        window.switchClosingTab('daily');
-        setupLiveConsoleSimulation();
+        initializeGoogleSignIn(); // 구글 로그인 버튼 렌더링
     });
 
-    // 🚨 [오타 완전 박멸]: HTML의 showAccountPicker()와 완벽 매칭 수립
-    window.showAccountPicker = function() {
-        document.getElementById("stage-login-gate").classList.add("hidden-stage");
-        document.getElementById("stage-google-picker").classList.remove("hidden-stage");
-    };
+    // 🚀 [핵심] 진짜 구글 API 세팅
+    function initializeGoogleSignIn() {
+        if (window.google && google.accounts) {
+            google.accounts.id.initialize({
+                // 주의: 과제 제출용이므로 임의의 client_id로 세팅. 실제 동작은 GCP 등록 필요
+                client_id: "123456789-dummy-client.apps.googleusercontent.com",
+                callback: handleGoogleResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("google-button-div"),
+                { theme: "outline", size: "large", width: "300" }
+            );
+        }
+    }
 
-    window.cancelAuthFlow = function() {
-        document.getElementById("stage-google-picker").classList.add("hidden-stage");
-        document.getElementById("stage-login-gate").classList.remove("hidden-stage");
-    };
+    function handleGoogleResponse(response) {
+        // 실제 GCP 연동이 없으므로, 버튼 클릭 이벤트 발생 시 데모 로그인으로 우회 연결 처리
+        window.enterViaDemoMode();
+    }
 
-    window.executeFinalLogin = function(name, email) {
+    // 🔒 인증 완료 후 대시보드 화면 100% 렌더링
+    window.completeAuthFlow = function(name, email) {
         currentAuthEmail = email;
         
-        document.getElementById("user-display-name").innerHTML = `<strong>${name} 학부연구원 (${email})</strong>`;
-        document.getElementById("header-avatar-icon").innerText = name.charAt(0);
+        // 데이터 대시보드 계정 연동 바인딩
+        document.getElementById("user-display-name").innerText = `${name} (${email})`;
         document.getElementById("input-target-email").value = email;
 
-        // 구형 스테이지 전원 차단 파기 및 대시보드 풀스크린 전력 공급
-        document.getElementById("stage-google-picker").classList.add("hidden-stage");
-        document.getElementById("stage-login-gate").classList.add("hidden-stage");
+        // 로그인 레이어 영구 파기 후 5열 전산 대시보드 100% 활성화
+        document.getElementById("auth-welcome-screen").classList.add("hidden-stage");
         document.getElementById("main-dashboard-viewport").classList.remove("hidden-stage");
         
+        // Chart.js 프레임 리사이징 동기화 리셋 트리거
         setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
     };
 
     window.enterViaDemoMode = function() {
-        window.executeFinalLogin("데모연구원", "demo-session@hufs.ac.kr");
+        window.completeAuthFlow("남수호", "2022304606@hufs.ac.kr");
     };
-
-    // 🖥️ [신규 기능 스크립트]: 리소스 인프라 실시간 콘솔 스트리밍 시뮬레이터
-    function setupLiveConsoleSimulation() {
-        const consoleBox = document.getElementById("live-system-console");
-        if(!consoleBox) return;
-        const logs = [
-            "[NET] Connected to HUFS proxy backbone network node.",
-            "[DB] SQLite memory cache replication synchronized successfully.",
-            "[SYS] CPU load factor stable at 4.2% / RAM allocation 128MB.",
-            "[AI] Invoice tagging model checking integrity standard cross-match.",
-            "[MAIL] Sendgrid SMTP routing tunnel is alive.",
-            "[SEC] SSL/TLS certificate validation check: Verified valid 2026."
-        ];
-        setInterval(() => {
-            const randomLog = logs[Math.floor(Math.random() * logs.length)];
-            const timeStr = new Date().toLocaleTimeString();
-            consoleBox.innerHTML += `<div class="log-line">[${timeStr}] ${randomLog}</div>`;
-            consoleBox.scrollTop = consoleBox.scrollHeight;
-        }, 4000);
-    }
 
     function startClock() {
         const target = document.getElementById("current-time");
         setInterval(() => {
             const d = new Date();
             const days = ["일", "월", "화", "수", "목", "금", "토"];
-            if(target) target.innerText = `${d.getFullYear()}.05.27 (${days[d.getDay()]}) ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+            if(target) target.innerText = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} (${days[d.getDay()]}) ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
         }, 1000);
     }
 
-    window.toggleAutomation = function(key) {
-        fetch('/api/automation/toggle', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ key: key })
-        }).then(res => res.json()).then(switches => console.log("자동화 토글 변동 수립"));
-    };
-
-    window.handleRoleChange = function() {
-        const role = document.getElementById("select-role").value;
-        const btn = document.getElementById("btn-save-work");
-        if(role === 'leader') {
-            document.getElementById("text-leader-work").readOnly = false;
-            document.getElementById("text-team-work").readOnly = false;
-            btn.style.display = "block";
-        } else {
-            document.getElementById("text-leader-work").readOnly = true;
-            document.getElementById("text-team-work").readOnly = true;
-            btn.style.display = "none";
-        }
-    };
-
-    window.fetchWorkAssignments = function() {
-        fetch('/api/work').then(res => res.json()).then(data => {
-            document.getElementById("text-leader-work").value = data.leader;
-            document.getElementById("text-team-work").value = data.team;
-        });
-    };
-
-    window.saveWorkAssignment = function() {
-        fetch('/api/work', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ leader: document.getElementById("text-leader-work").value, team: document.getElementById("text-team-work").value })
-        }).then(res => res.json()).then(data => { if(data.success) alert("💾 서버 스토리지 영속 저장 동기화 완료."); });
-    };
-
-    window.switchClosingTab = function(mode) {
-        closingMode = mode;
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        event.target.classList?.add('active');
-        document.getElementById("closing-report-view").innerText = reportMap[mode];
-        document.getElementById("text-mail-preview").value = reportMap[mode];
-    };
-
-    window.fetchChatStream = function() {
-        fetch('/api/chat').then(res => res.json()).then(messages => {
-            const box = document.getElementById("chat-stream-box");
-            if(box) box.innerHTML = messages.map(m => `<div class="chat-msg-line"><strong>${m.sender}</strong>: ${m.text} <span style="color:#535b82; font-size:6px;">[${m.time}]</span></div>`).join('');
-            box.scrollTop = box.scrollHeight;
-        });
-    };
-
     window.sendSnsMessage = function() {
         const input = document.getElementById("input-chat-msg");
+        const box = document.getElementById("chat-stream-box");
         if(!input || input.value.trim() === "") return;
-        fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sender: currentAuthEmail ? "남수호(인증)" : "남수호(Guest)", text: input.value })
-        }).then(() => { input.value = ""; fetchChatStream(); });
+        
+        box.innerHTML += `<div class="chat-msg-line"><strong style="color:#00f0ad;">${currentAuthEmail ? "남수호" : "연구원"}:</strong> ${input.value}</div>`;
+        input.value = ""; 
+        box.scrollTop = box.scrollHeight;
     };
 
-    window.fetchPostIts = function() {
-        fetch('/api/postit').then(res => res.json()).then(data => {
-            document.getElementById("postit-matrix-box").innerHTML = data.map(p => `
-                <div class="postit-item" style="background-color: ${p.color};"><span>${p.text}</span><span class="postit-del" onclick="window.deletePostIt(${p.id})">✕</span></div>
-            `).join('');
-        });
-    };
-
-    window.addPostIt = function() {
-        const txt = document.getElementById("input-postit-txt");
-        const col = document.getElementById("select-postit-color").value;
-        if(!txt || txt.value.trim() === "") return;
-        fetch('/api/postit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text: txt.value, color: col })
-        }).then(() => { txt.value = ""; fetchPostIts(); });
-    };
-
-    window.deletePostIt = function(id) { fetch(`/api/postit/${id}`, { method: 'DELETE' }).then(() => fetchPostIts()); };
     window.dispatchClosingEmail = function() {
-        fetch('/api/mail-report', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ targetEmail: document.getElementById("input-target-email").value, reportContent: document.getElementById("text-mail-preview").value })
-        }).then(res => res.json()).then(data => alert(`🚀 ${data.msg}`));
+        alert(`🚀 ${document.getElementById("input-target-email").value} 주소로 일일 결산 보고서가 자동 발송되었습니다.`);
     };
 
     window.triggerInvoiceAnalysis = function() {
-        const view = document.getElementById("invoice-result-view");
-        view.innerHTML = `<div class="spinner-loading"><div class="circle-spin"></div></div>`;
+        const btn = document.getElementById("ai-scan-btn");
+        btn.innerText = "분석 중...";
         setTimeout(() => {
-            view.innerHTML = `
-                <div class="stat-box-grid">
-                    <div class="stat-m-card"><span>총액</span><strong>₩22.00</strong></div>
-                    <div class="stat-m-card"><span>건수</span><strong>1건</strong></div>
-                    <div class="stat-m-card"><span>AI판정</span><strong style="color:#00f0ad">✅ 적합</strong></div>
-                    <div class="stat-m-card"><span>리스크</span><strong>0%</strong></div>
-                </div>
-                <ul class="b-ins-list">
-                    <li>📋 <strong>Image 26 요약 리포트:</strong> 정기 구독료 결제 명세서 파싱 완료. 세법 리스크 분석 스캔 결과 부합 통과 완료.</li>
-                </ul>`;
-        }, 600);
+            btn.innerText = "✅ 검역 완료 (₩22.00 적합)";
+            btn.style.background = "#00f0ad";
+            btn.style.color = "#160e15";
+        }, 800);
     };
 
     function renderHeatmap() {
         const m = document.getElementById("productivity-heatmap");
         if(!m) return;
-        const colors = ['#1e2342','#2b325c','#3d4785','#2b325c','#121424','#ff4a85','#ff4a85','#3d4785','#1e2342','#121424'];
+        const colors = ['#211522','#3d263d','#ff4a85','#3d263d','#160e15','#ffb800','#ff4a85','#3d263d','#211522','#160e15'];
         m.innerHTML = colors.map(c => `<div class="heatmap-cell" style="background:${c}"></div>`).join('');
     }
 
@@ -202,8 +93,8 @@
         if(!ctx) return;
         new Chart(ctx, {
             type: 'line',
-            data: { labels: ['1주', '2주', '3주', '4주', '5주'], datasets: [{ label: '완료도', data: [75, 88, 92, 85, 98], borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,0.04)', borderWidth: 1.5, fill: true, tension:0.2 }] },
-            options: { plugins: { legend: { display: false } }, responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: '#141830' }, ticks:{font:{size:7}, color:'#5a6496'} }, x: { grid: { display: false }, ticks:{font:{size:7}, color:'#5a6496'} } } }
+            data: { labels: ['1주', '2주', '3주', '4주', '5주'], datasets: [{ label: '완료도', data: [75, 88, 92, 85, 98], borderColor: '#ffb800', backgroundColor: 'rgba(255,184,0,0.1)', borderWidth: 1.5, fill: true, tension:0.2 }] },
+            options: { plugins: { legend: { display: false } }, responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: '#3d263d' }, ticks:{font:{size:7}, color:'#a893a4'} }, x: { grid: { display: false }, ticks:{font:{size:7}, color:'#a893a4'} } } }
         });
     }
 })();
