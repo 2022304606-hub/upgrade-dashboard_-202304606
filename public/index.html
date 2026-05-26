@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>융합 데이터 행정 마스터 시스템</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- ✅ [추가] Google Identity Services 공식 라이브러리 -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,8 +20,18 @@
             
             <div class="login-form">
                 <label>시스템 접근 계정 (교수님 채점용)</label>
-                <input type="email" id="prof-email" placeholder="professor@hufs.ac.kr 입력">
-                <button class="btn-submit" onclick="window.doLogin()">보안 전산망 접속</button>
+
+                <!-- ✅ [변경] 기존 이메일 input + 버튼 → 구글 공식 로그인 버튼 영역으로 교체 -->
+                <!--
+                    ① GSI가 정상 초기화되면 이 div 안에 구글 공식 버튼이 자동 렌더링됩니다.
+                    ② Client ID가 없거나 GSI 로드에 실패하면 아래 fallback 버튼이 대신 표시됩니다.
+                -->
+                <div id="google-button-div" style="min-height: 44px; display: flex; justify-content: center; margin: 12px 0;"></div>
+
+                <!-- Fallback: GSI 로드 실패 시 표시되는 대체 버튼 -->
+                <button id="fallback-login-btn" class="btn-submit" style="display: none;" onclick="window.doFallbackLogin()">
+                    🔑 임시 접속 (Client ID 미설정)
+                </button>
             </div>
             
             <div class="login-footer">© 2026 NAM SUHO. System Ready.</div>
