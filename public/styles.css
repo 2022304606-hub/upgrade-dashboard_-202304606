@@ -1,7 +1,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
 body { background-color: #0b0f19; color: #e2e8f0; display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; overflow: hidden; }
 
-/* 유틸리티 컬러 (옵시디언 블랙 & 네온 사이언 테마) */
+/* 유틸리티 컬러 */
 .hidden-stage { display: none !important; }
 .text-cyan { color: #00f0ff !important; }
 .text-mint { color: #00ff9d !important; }
@@ -10,7 +10,7 @@ body { background-color: #0b0f19; color: #e2e8f0; display: flex; justify-content
 .bg-mint { background: #00ff9d !important; color: #0b0f19; }
 .bg-alert { background: #ff3366 !important; color: white; }
 
-/* STAGE 1: 로그인 게이트 */
+/* 인트로 웰컴 뷰 */
 .auth-fullscreen-viewport { position: absolute; width: 100vw; height: 100vh; background: #0b0f19; display: flex; justify-content: center; align-items: center; z-index: 1000; }
 .welcome-auth-card { background: #151a2d; border: 1px solid #232b45; border-radius: 16px; width: 400px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(0,240,255,0.1); }
 .logo-icon { font-size: 40px; text-shadow: 0 0 15px #00f0ff; margin-bottom: 10px; }
@@ -20,87 +20,101 @@ body { background-color: #0b0f19; color: #e2e8f0; display: flex; justify-content
 .divider { margin: 20px 0; border-top: 1px solid #232b45; position: relative; }
 .divider span { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #151a2d; padding: 0 10px; font-size: 12px; color: #8f9bb3; }
 .btn-demo { width: 100%; background: transparent; border: 1px solid #00ff9d; color: #00ff9d; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-.btn-demo:hover { background: rgba(0,255,157,0.1); }
 
-/* STAGE 3: 옵시디언 벤토박스 (Bento-Box) 그리드 */
-.screen-master-container { width: 100vw; height: 100vh; padding: 10px; display: flex; flex-direction: column; gap: 10px; }
-
-.main-header { background: #151a2d; border: 1px solid #232b45; border-radius: 8px; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; height: 60px; }
+/* 메인 스크린 구조 */
+.screen-master-container { width: 100vw; height: 100vh; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.main-header { background: #151a2d; border: 1px solid #232b45; border-radius: 6px; padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; height: 50px; }
 .profile { display: flex; align-items: center; gap: 10px; }
-.avatar { width: 32px; height: 32px; background: #00f0ff; color: #0b0f19; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-.info h1 { font-size: 14px; color: white; }
-.info p { font-size: 10px; color: #8f9bb3; }
+.avatar { width: 28px; height: 28px; background: #00f0ff; color: #0b0f19; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px;}
+.info h1 { font-size: 13px; color: white; }
+.info p { font-size: 9px; color: #8f9bb3; }
 .header-stats { display: flex; gap: 15px; }
 .stat { text-align: center; }
-.stat span { display: block; font-size: 9px; color: #8f9bb3; }
-.stat strong { font-size: 14px; }
-.header-right { font-size: 12px; color: #8f9bb3; font-weight: bold; }
+.stat span { display: block; font-size: 8px; color: #8f9bb3; }
+.stat strong { font-size: 12px; }
+.header-right { font-size: 11px; color: #8f9bb3; font-weight: bold; }
 
-/* 꽉 찬 테트리스 그리드 핵심 설계 */
-.bento-grid {
-    flex: 1; display: grid; 
-    grid-template-columns: repeat(4, 1fr); 
-    grid-auto-rows: minmax(10px, 1fr); /* 틈새 자동 확장 */
-    gap: 10px; overflow: hidden;
-}
+/* 5열 빽빽한 그리드 */
+.bento-grid { flex: 1; display: flex; gap: 8px; overflow: hidden; }
+.grid-column { display: flex; flex-direction: column; gap: 8px; flex: 1; overflow: hidden; height: 100%; }
 
-.card { background: #151a2d; border: 1px solid #232b45; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; overflow: hidden; }
-.card h2 { font-size: 11px; color: #8f9bb3; margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid #232b45; }
+.card { background: #151a2d; border: 1px solid #232b45; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; overflow: hidden; }
+.card h2 { font-size: 10px; color: #8f9bb3; margin-bottom: 8px; padding-bottom: 4px; border-bottom: 1px solid #232b45; }
+.bento-tall { flex: 1.5; }
+.bento-standard { flex: 1; }
 
-/* 스패닝(Spanning)을 통한 빈틈 완벽 제거 */
-.bento-tall { grid-row: span 2; }
-.bento-wide { grid-column: span 2; }
-.bento-standard { grid-column: span 1; grid-row: span 1; }
-
-/* 내부 컴포넌트 꽉 채우기 */
-.brief-item { background: #0b0f19; padding: 8px; border-radius: 4px; margin-bottom: 6px; border-left: 2px solid; }
+/* 내부 컴포넌트 세부 디자인 (빈틈 방지) */
+.brief-item { background: #0b0f19; padding: 6px; border-radius: 4px; margin-bottom: 6px; border-left: 2px solid; }
 .border-alert { border-color: #ff3366; }
 .border-cyan { border-color: #00f0ff; }
-.border-mint { border-color: #00ff9d; }
-.badge { font-size: 9px; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
-.brief-item p { font-size: 11px; margin-top: 4px; font-weight: 500; }
+.badge { font-size: 8px; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
+.brief-item p { font-size: 10px; margin-top: 4px; font-weight: 500; }
 
-.chart-box { flex: 1; position: relative; width: 100%; min-height: 100px;}
-
-.scroll-list { list-style: none; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
-.scroll-list li { background: #0b0f19; padding: 8px; border-radius: 4px; font-size: 11px; display: flex; align-items: center; gap: 6px; }
-.tag { font-size: 9px; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
+.scroll-list { list-style: none; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 5px; }
+.scroll-list li { background: #0b0f19; padding: 6px; border-radius: 4px; font-size: 10px; display: flex; align-items: center; gap: 6px; }
+.tag { font-size: 8px; padding: 2px 4px; border-radius: 3px; font-weight: bold; }
 .tag.alert { background: rgba(255,51,102,0.2); color: #ff3366; }
 .tag.cyan { background: rgba(0,240,255,0.2); color: #00f0ff; }
 .tag.mint { background: rgba(0,255,157,0.2); color: #00ff9d; }
 
+.dday-box { display: flex; align-items: center; gap: 10px; background: #0b0f19; padding: 6px; border-radius: 4px; margin-bottom: 6px;}
+.d-circle { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;}
+.dday-box span { font-size: 10px; font-weight: 500;}
+
 .flex-center-box { display: flex; justify-content: space-around; align-items: center; flex: 1; background: #0b0f19; border-radius: 4px; }
 .big-stat { text-align: center; }
-.big-stat strong { font-size: 24px; display: block; }
-.big-stat span { font-size: 10px; color: #8f9bb3; }
+.big-stat strong { font-size: 20px; display: block; }
+.big-stat span { font-size: 9px; color: #8f9bb3; }
 
-.chat-area { flex: 1; background: #0b0f19; border-radius: 4px; padding: 8px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
-.msg { font-size: 11px; background: #232b45; padding: 6px; border-radius: 4px; }
-.msg strong { color: #00f0ff; }
-.chat-input { display: flex; gap: 4px; }
-.chat-input input { flex: 1; background: #0b0f19; border: 1px solid #232b45; color: white; padding: 6px; border-radius: 4px; font-size: 11px; }
-.chat-input button { background: #00f0ff; border: none; color: #0b0f19; font-weight: bold; border-radius: 4px; padding: 0 10px; cursor: pointer; }
+.heatmap-matrix { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; flex: 1;}
+.heatmap-cell { border-radius: 2px; }
 
-.postit-box { display: flex; gap: 4px; margin-bottom: 8px; }
-.postit-box input { flex: 1; background: #0b0f19; border: 1px solid #232b45; color: white; padding: 6px; border-radius: 4px; font-size: 11px; }
-.postit-box button { background: #00ff9d; border: none; color: #0b0f19; font-weight: bold; border-radius: 4px; padding: 0 10px; cursor: pointer; }
-.postit-list { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; overflow-y: auto; }
-.postit-item { background: #00ff9d; color: #0b0f19; font-size: 10px; padding: 6px; border-radius: 4px; font-weight: bold; display: flex; justify-content: space-between; width: 100%; }
+.toggle-row { display: flex; justify-content: space-between; align-items: center; background: #0b0f19; padding: 6px; border-radius: 4px; font-size: 9px; margin-bottom: 4px;}
+.fake-toggle { font-size: 8px; font-weight: bold; padding: 2px 6px; border-radius: 10px; background: #00ff9d; color: #0b0f19; }
 
 .dual-box { display: flex; justify-content: space-between; align-items: center; background: #0b0f19; padding: 10px; border-radius: 4px; flex: 1; }
 .dual-box div { text-align: center; width: 50%; }
-.dual-box span { display: block; font-size: 10px; color: #8f9bb3; margin-bottom: 4px; }
-.dual-box strong { font-size: 16px; }
+.dual-box span { display: block; font-size: 9px; color: #8f9bb3; margin-bottom: 4px; }
+.dual-box strong { font-size: 14px; }
 
-.mail-flex { display: flex; gap: 10px; flex: 1; }
-.mail-flex textarea { flex: 1; background: #0b0f19; border: 1px solid #232b45; color: #00f0ff; padding: 10px; border-radius: 4px; resize: none; font-size: 11px; }
-.mail-controls { display: flex; flex-direction: column; gap: 8px; width: 200px; }
-.mail-controls input { background: #0b0f19; border: 1px solid #232b45; color: white; padding: 8px; border-radius: 4px; font-size: 11px; }
-.btn-mail { background: #00f0ff; color: #0b0f19; border: none; font-weight: bold; padding: 10px; border-radius: 4px; cursor: pointer; flex: 1; }
+.chart-box { flex: 1; position: relative; width: 100%; min-height: 80px;}
+
+.swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; flex: 1;}
+.swot-box { background: #0b0f19; padding: 6px; border-radius: 4px; border-top: 2px solid; }
+.border-cyan { border-top-color: #00f0ff; }
+.border-alert { border-top-color: #ff3366; }
+.border-mint { border-top-color: #00ff9d; }
+.border-gold { border-top-color: #ffb800; }
+.swot-box h5 { font-size: 9px; color: white; margin-bottom: 4px;}
+.swot-box p { font-size: 9px; color: #8f9bb3; line-height: 1.3;}
+
+.interactive-calendar-container { background: #0b0f19; padding: 8px; border-radius: 4px; flex: 1;}
+.cal-grid-header, .cal-grid-cells { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 10px; gap: 2px;}
+.cal-grid-header { color: #00f0ff; font-weight: bold; margin-bottom: 6px;}
+.cal-grid-cells span { padding: 4px 0; border-radius: 2px; color: white;}
+.cal-grid-cells .cal-today { background: #ff3366; color: white; font-weight: bold;}
+.cal-grid-cells .fade { color: #4b5563; }
+
+.team-row { display: flex; align-items: center; background: #0b0f19; padding: 6px; border-radius: 4px; font-size: 10px; margin-bottom: 4px;}
+.dot { width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; background: #00ff9d; box-shadow: 0 0 5px #00ff9d;}
+.team-row span { margin-left: auto; color: #8f9bb3; font-size: 9px;}
+
+.chat-area { flex: 1; background: #0b0f19; border-radius: 4px; padding: 8px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; margin-bottom: 6px; }
+.msg { font-size: 10px; background: #232b45; padding: 6px; border-radius: 4px; line-height: 1.3;}
+.msg strong { color: #00f0ff; }
+.chat-input { display: flex; gap: 4px; }
+.chat-input input { flex: 1; background: #0b0f19; border: 1px solid #232b45; color: white; padding: 6px; border-radius: 4px; font-size: 10px; }
+.chat-input button { background: #00f0ff; border: none; color: #0b0f19; font-weight: bold; border-radius: 4px; padding: 0 10px; cursor: pointer; }
+
+.live-console-box { flex: 1; background: #000; border: 1px solid #232b45; border-radius: 4px; padding: 6px; font-family: monospace; font-size: 9px; color: #00ff9d; overflow-y: auto; line-height: 1.4;}
 
 .upload-zone { border: 1px dashed #00ff9d; background: #0b0f19; flex: 1; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-.upload-zone p { font-size: 11px; color: #8f9bb3; margin-bottom: 8px; }
-.upload-zone span { font-size: 10px; font-weight: bold; background: #00ff9d; color: #0b0f19; padding: 4px 8px; border-radius: 4px; }
+.upload-zone p { font-size: 10px; color: #8f9bb3; margin-bottom: 8px; }
+.upload-zone span { font-size: 9px; font-weight: bold; background: #00ff9d; color: #0b0f19; padding: 4px 8px; border-radius: 4px; }
+
+.mail-controls { display: flex; gap: 6px; flex: 1; align-items: stretch;}
+.mail-controls input { flex: 1; background: #0b0f19; border: 1px solid #232b45; color: white; padding: 8px; border-radius: 4px; font-size: 10px; }
+.btn-mail { background: #00f0ff; color: #0b0f19; border: none; font-weight: bold; padding: 0 10px; border-radius: 4px; cursor: pointer; font-size: 10px;}
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #0b0f19; }

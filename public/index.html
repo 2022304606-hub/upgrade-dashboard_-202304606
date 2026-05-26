@@ -13,13 +13,11 @@
             <div class="logo-icon">⚡</div>
             <h2>HUFS 행정업무 통합 대시보드</h2>
             <p class="univ-title">차이나데이터큐레이션전공 · 남수호 (2022304606)</p>
-            
             <button class="btn-google-login" onclick="window.openGooglePopup()">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G">
-                Google 계정으로 시작하기
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G"> Google 계정으로 시작하기
             </button>
             <div class="divider"><span>OR</span></div>
-            <button class="btn-demo" onclick="window.enterViaDemoMode()">🔒 데모 모드 접속</button>
+            <button class="btn-demo" onclick="window.enterViaDemoMode()">🔒 시스템 오프라인 데모 진입</button>
         </div>
     </div>
 
@@ -30,98 +28,148 @@
                 <div class="avatar">수</div>
                 <div class="info">
                     <h1 id="user-display-name">남수호</h1>
-                    <p>전산망 마스터 권한</p>
+                    <p>전산망 마스터 권한 연결됨</p>
                 </div>
             </div>
             <div class="header-stats">
-                <div class="stat"><span>총 기안</span><strong>32건</strong></div>
-                <div class="stat"><span>결재대기</span><strong class="text-cyan">5건</strong></div>
-                <div class="stat"><span>긴급(D-1)</span><strong class="text-alert">3건</strong></div>
-                <div class="stat"><span>완료율</span><strong class="text-mint">94%</strong></div>
+                <div class="stat"><span>총 결재</span><strong>32</strong></div>
+                <div class="stat"><span>대기</span><strong class="text-cyan">5</strong></div>
+                <div class="stat"><span>임박(D-1)</span><strong class="text-alert">3</strong></div>
+                <div class="stat"><span>서버 CPU</span><strong class="text-mint">12%</strong></div>
+                <div class="stat"><span>메모리</span><strong class="text-mint">4.2GB</strong></div>
             </div>
             <div class="header-right" id="current-time">2026.05.27 (수) 01:30:00</div>
         </header>
 
         <div class="bento-grid">
             
-            <section class="card bento-tall">
-                <h2>🤖 AI 데일리 브리핑</h2>
-                <div class="brief-item border-alert"><span class="badge bg-alert">1위</span><p>Q2 실적 보고서 결재</p></div>
-                <div class="brief-item border-cyan"><span class="badge bg-cyan">2위</span><p>5/15 임원회의 세팅</p></div>
-                <div class="brief-item border-mint"><span class="badge bg-mint">3위</span><p>사무용품 예산 검토</p></div>
-                <div class="brief-item border-mint"><span class="badge bg-mint">4위</span><p>외주 인력 보안 점검</p></div>
-            </section>
+            <div class="grid-column">
+                <section class="card bento-standard">
+                    <h2>🤖 AI 데일리 브리핑</h2>
+                    <div class="brief-item border-alert"><span class="badge bg-alert">1순위</span><p>Q2 경영실적 보고서 결재</p></div>
+                    <div class="brief-item border-cyan"><span class="badge bg-cyan">2순위</span><p>5/15 임원회의실 세팅</p></div>
+                </section>
+                <section class="card bento-tall">
+                    <h2>📋 TO-DO (가중치 정렬)</h2>
+                    <ul class="scroll-list">
+                        <li><span class="tag alert">결재</span> 실적보고서 송신</li>
+                        <li><span class="tag cyan">회의</span> 하드웨어 점검</li>
+                        <li><span class="tag mint">행정</span> 비품 재고 파악</li>
+                        <li><span class="tag mint">행정</span> 메일 회신 완료</li>
+                        <li><span class="tag mint">정산</span> 연구비 카드 대조</li>
+                    </ul>
+                </section>
+                <section class="card bento-standard">
+                    <h2>⏳ D-Day 카운터</h2>
+                    <div class="dday-box"><div class="d-circle bg-alert">1</div><span>임원회의 마감</span></div>
+                    <div class="dday-box"><div class="d-circle bg-cyan">8</div><span>하계 워크샵</span></div>
+                </section>
+            </div>
 
-            <section class="card bento-wide">
-                <h2>📈 주간 업무 처리 트렌드</h2>
-                <div class="chart-box"><canvas id="workTrendChart"></canvas></div>
-            </section>
+            <div class="grid-column">
+                <section class="card bento-standard">
+                    <h2>📊 결재 문서 트래커</h2>
+                    <div class="flex-center-box">
+                        <div class="big-stat"><strong class="text-cyan">28</strong><span>완료</span></div>
+                        <div class="big-stat"><strong class="text-alert">1</strong><span>반려</span></div>
+                        <div class="big-stat"><strong class="text-mint">3</strong><span>대기</span></div>
+                    </div>
+                </section>
+                <section class="card bento-standard">
+                    <h2>🔥 시간대별 업무 히트맵</h2>
+                    <div class="heatmap-matrix" id="productivity-heatmap"></div>
+                </section>
+                <section class="card bento-standard">
+                    <h2>⚙️ 루틴 업무 자동화 제어</h2>
+                    <div class="toggle-row"><span>09시 AI 브리핑 생성</span><div class="fake-toggle on">ON</div></div>
+                    <div class="toggle-row"><span>매주 금요 보고서 초안</span><div class="fake-toggle on">ON</div></div>
+                    <div class="toggle-row"><span>서버 리소스 로그 수집</span><div class="fake-toggle on">ON</div></div>
+                </section>
+                <section class="card bento-standard">
+                    <h2>💵 실시간 자산 환율</h2>
+                    <div class="dual-box">
+                        <div><span>USD/KRW</span><strong class="text-cyan">1,378.60</strong></div>
+                        <div><span>JPY/KRW</span><strong class="text-mint">8.92</strong></div>
+                    </div>
+                </section>
+            </div>
 
-            <section class="card bento-standard">
-                <h2>📋 TO-DO 우선순위</h2>
-                <ul class="scroll-list">
-                    <li><span class="tag alert">결재</span> Q2 실적보고서</li>
-                    <li><span class="tag cyan">회의</span> 임원회의 배포</li>
-                    <li><span class="tag mint">일반</span> 비품 재고 파악</li>
-                    <li><span class="tag mint">일반</span> 메일 회신 완료</li>
-                </ul>
-            </section>
+            <div class="grid-column" style="flex: 1.3;">
+                <section class="card bento-tall">
+                    <h2>📈 업무 진척도 멀티 트렌드</h2>
+                    <div class="chart-box"><canvas id="workTrendChart"></canvas></div>
+                </section>
+                <section class="card bento-tall">
+                    <h2>🧠 프로젝트 SWOT 분석</h2>
+                    <div class="swot-grid">
+                        <div class="swot-box border-cyan"><h5>S (강점)</h5><p>AI 툴 도입으로 처리속도 40% 증가</p></div>
+                        <div class="swot-box border-alert"><h5>W (약점)</h5><p>소모품 예산 80% 소진 임박</p></div>
+                        <div class="swot-box border-mint"><h5>O (기회)</h5><p>신규 영수증 파싱 모듈 안정화</p></div>
+                        <div class="swot-box border-gold"><h5>T (위협)</h5><p>본부장 결재 라인 상습 병목</p></div>
+                    </div>
+                </section>
+            </div>
 
-            <section class="card bento-standard">
-                <h2>📂 결재 및 공문서</h2>
-                <div class="flex-center-box">
-                    <div class="big-stat"><strong class="text-cyan">28</strong><span>승인</span></div>
-                    <div class="big-stat"><strong class="text-alert">1</strong><span>반려</span></div>
-                    <div class="big-stat"><strong class="text-mint">3</strong><span>대기</span></div>
-                </div>
-            </section>
+            <div class="grid-column">
+                <section class="card bento-tall">
+                    <h2>📅 2026년 5월 행정 캘린더</h2>
+                    <div class="interactive-calendar-container">
+                        <div class="cal-grid-header"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
+                        <div class="cal-grid-cells">
+                            <span>24</span><span>25</span><span>26</span><span class="cal-today">27</span><span>28</span><span>29</span><span>30</span>
+                            <span class="fade">31</span><span class="fade">1</span><span class="fade">2</span><span class="fade">3</span><span class="fade">4</span><span class="fade">5</span><span class="fade">6</span>
+                        </div>
+                    </div>
+                    <div style="font-size:9px; color:#8f9bb3; margin-top:8px;">📌 5/27: KCI 논문 데이터 정산 검역 완료 목표일</div>
+                </section>
+                <section class="card bento-standard">
+                    <h2>✅ 반복업무 체크리스트</h2>
+                    <ul class="scroll-list">
+                        <li style="color:#00ff9d; text-decoration:line-through;">출근 후 메일 확인 ✔</li>
+                        <li style="color:#00ff9d; text-decoration:line-through;">오전 결재 처리 ✔</li>
+                        <li>일일 업무일지 작성</li>
+                    </ul>
+                </section>
+                <section class="card bento-standard">
+                    <h2>👥 팀 접속 스캐너</h2>
+                    <div class="team-row"><span class="dot online"></span><strong>김팀장</strong> <span>결재 진행중</span></div>
+                    <div class="team-row"><span class="dot online"></span><strong>남수호</strong> <span>대시보드 세션</span></div>
+                </section>
+            </div>
 
-            <section class="card bento-tall">
-                <h2>💬 실시간 사내 SNS</h2>
-                <div class="chat-area" id="chat-stream-box">
-                    <div class="msg"><strong>시스템:</strong> 로그인 완료.</div>
-                </div>
-                <div class="chat-input">
-                    <input type="text" id="input-chat-msg" onkeypress="if(event.key==='Enter') window.sendSnsMessage()">
-                    <button onclick="window.sendSnsMessage()">전송</button>
-                </div>
-            </section>
-
-            <section class="card bento-standard">
-                <h2>📌 포스트잇</h2>
-                <div class="postit-box">
-                    <input type="text" id="input-postit-txt" placeholder="메모...">
-                    <button onclick="window.addPostIt()">저장</button>
-                </div>
-                <div class="postit-list" id="postit-matrix-box"></div>
-            </section>
-
-            <section class="card bento-standard">
-                <h2>💵 외화 자산 & 리소스</h2>
-                <div class="dual-box">
-                    <div><span>USD/KRW</span><strong class="text-cyan">1,378.60</strong></div>
-                    <div><span>서버 CPU</span><strong class="text-mint">12%</strong></div>
-                </div>
-            </section>
-
-            <section class="card bento-wide">
-                <h2>🚀 결산 리포트 구글 메일 자동 발송</h2>
-                <div class="mail-flex">
-                    <textarea readonly id="text-mail-preview">[일일 결산] 업무 완료율 94%. 특이사항 없음.</textarea>
+            <div class="grid-column" style="flex: 1.2;">
+                <section class="card bento-standard">
+                    <h2>💬 사내 메신저 & AI 챗봇</h2>
+                    <div class="chat-area" id="chat-stream-box">
+                        <div class="msg"><strong>시스템:</strong> 로그인 완료. KCI 분석 모듈 정상 가동 중입니다.</div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="input-chat-msg" placeholder="명령어 입력..." onkeypress="if(event.key==='Enter') window.sendSnsMessage()">
+                        <button onclick="window.sendSnsMessage()">전송</button>
+                    </div>
+                </section>
+                <section class="card bento-standard">
+                    <h2>🖥️ 서버 실시간 로그 콘솔</h2>
+                    <div class="live-console-box" id="live-system-console">
+                        <div>[SYS] Initialization complete.</div>
+                        <div>[NET] OAuth 2.0 Token verified.</div>
+                    </div>
+                </section>
+                <section class="card bento-standard">
+                    <h2>💳 영수증 AI 분석 (Img 26)</h2>
+                    <div class="upload-zone" onclick="window.triggerAI()">
+                        <p>📁 HFHSZV60.pdf (130KB)</p>
+                        <span id="ai-btn">AI 검역 시작</span>
+                    </div>
+                </section>
+                <section class="card bento-standard">
+                    <h2>🚀 자동 메일 허브</h2>
                     <div class="mail-controls">
                         <input type="email" id="input-target-email" value="professor@hufs.ac.kr">
-                        <button class="btn-mail" onclick="window.dispatchEmail()">⚡ 즉시 발송</button>
+                        <button class="btn-mail" onclick="window.dispatchEmail()">⚡ 리포트 즉시 발송</button>
                     </div>
-                </div>
-            </section>
-
-            <section class="card bento-standard">
-                <h2>💳 영수증 AI 분석 (Img 26)</h2>
-                <div class="upload-zone" onclick="window.triggerAI()">
-                    <p>📁 HFHSZV60.pdf</p>
-                    <span id="ai-btn">AI 검역 시작</span>
-                </div>
-            </section>
+                </section>
+            </div>
 
         </div>
     </div>
