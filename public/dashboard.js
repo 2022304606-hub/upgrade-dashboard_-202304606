@@ -22,29 +22,39 @@
         window.switchClosingTab('daily');
     });
 
-    // 🚀 [구글 로그인 단일 파일 탭 스위칭]: 인트라넷 1단계 -> 2단계 이동
+    // 🚀 [버그 완전 박멸]: 인트라넷 1단계 게이트를 차단하고 2단계 계정 선택창 개설
     window.navigateToGooglePicker = function() {
-        document.getElementById("auth-welcome-screen").style.display = "none";
-        document.getElementById("auth-google-picker-screen").style.display = "flex";
+        document.getElementById("stage-login-gate").classList.add("hidden-stage");
+        document.getElementById("stage-google-picker").classList.remove("hidden-stage");
     };
 
-    // 🔒 2단계 -> 3단계 이동 및 마스터 전산 프로필 정보 바인딩
-    window.completeAuthFlow = function(name, email) {
+    // 인증 취소 후 인트로 복귀
+    window.cancelAuthFlow = function() {
+        document.getElementById("stage-google-picker").classList.add("hidden-stage");
+        document.getElementById("stage-login-gate").classList.remove("hidden-stage");
+    };
+
+    // 🔒 [완전한 3단계 인프라 로드]: 계정 선택 완료 시 로그인 레이어를 완전 폭파 파기하고 대시보드 강제 스트레치
+    window.executeFinalLogin = function(name, email) {
         currentAuthEmail = email;
         
+        // 데이터 대시보드 계정 연동 바인딩
         document.getElementById("user-display-name").innerHTML = `<strong>${name} 학부연구원 (${email})</strong>`;
         document.getElementById("header-avatar-icon").innerText = name.charAt(0);
         document.getElementById("input-target-email").value = email;
 
-        document.getElementById("auth-google-picker-screen").style.display = "none";
-        document.getElementById("main-dashboard-viewport").style.display = "flex";
+        // 로그인 레이어 영구 파기 후 4열 전산 대시보드 100% 활성화
+        document.getElementById("stage-google-picker").classList.add("hidden-stage");
+        document.getElementById("stage-login-gate").classList.add("hidden-stage");
+        document.getElementById("main-dashboard-viewport").classList.remove("hidden-stage");
         
-        // Chart.js 렌더링 리사이징 동기화 트리거
-        setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 100);
+        // Chart.js 프레임 리사이징 동기화 리셋 트리거
+        setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
     };
 
+    // 오프라인 데모 직접 바인딩 진입
     window.enterViaDemoMode = function() {
-        window.completeAuthFlow("데모연구원", "demo-session@hufs.ac.kr");
+        window.executeFinalLogin("데모연구원", "demo-session@hufs.ac.kr");
     };
 
     function startClock() {
@@ -61,7 +71,7 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ key: key })
-        }).then(res => res.json()).then(switches => console.log("자동화 엔진 변동 스왑완료"));
+        }).then(res => res.json()).then(switches => console.log("자동화 플러그 스왑완료"));
     };
 
     window.handleRoleChange = function() {
