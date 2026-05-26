@@ -7,26 +7,56 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
     <div id="auth-stage" class="auth-stage">
-        <div class="hufs-premium-login-card">
-            <div class="hufs-logo">HUFS</div>
-            <h2>행정업무 통합 대시보드</h2>
-            <p class="subtitle">차이나데이터큐레이션전공 · 남수호 (2022304606)</p>
-            
-            <div class="manual-login-section">
-                <label>시스템 접근 계정 (교수님 채점용)</label>
-                <input type="email" id="prof-email" placeholder="이메일 입력">
-                <input type="password" id="prof-pw" placeholder="비밀번호 입력">
-                <button class="btn-primary-login" onclick="window.doLogin()">보안 전산망 접속</button>
-            </div>
-            <footer class="gate-bottom-copyright">© 2026 NAM SUHO. System Ready.</footer>
+        <div class="login-card">
+            <div class="logo-icon">⚡</div>
+            <h2>HUFS 통합 행정 시스템</h2>
+            <p>교수님 채점용 계정 입력</p>
+            <input type="email" id="email" placeholder="professor@hufs.ac.kr">
+            <input type="password" id="pw" placeholder="비밀번호">
+            <button onclick="window.doLogin()">보안 전산망 접속</button>
         </div>
     </div>
 
-    <div id="dash-stage" class="screen-master-container hidden">
+    <div id="dash-stage" class="dash-stage hidden">
+        <header class="top-header">
+            <div class="profile-info"><div class="avatar">수</div><div><h1 id="user-display-name">남수호</h1><p>마스터 관리자 권한</p></div></div>
+            <div class="header-stats">
+                <div class="stat"><span>총 결재</span><strong>32</strong></div>
+                <div class="stat"><span>대기</span><strong class="text-cyan">5</strong></div>
+                <div class="stat"><span>서버 CPU</span><strong class="text-mint">12%</strong></div>
+            </div>
+            <div class="header-time" id="current-time">00:00:00</div>
+        </header>
+
+        <div class="bento-grid">
+            <div class="b-col">
+                <section class="card"><h2>🤖 AI 데일리 브리핑</h2><div class="brief-item alert">1위: 실적보고서 결재</div><div class="brief-item cyan">2위: 임원회의 세팅</div></section>
+                <section class="card tall"><h2>📋 TO-DO 우선순위</h2><ul class="scroll-list" id="todo-list"></ul><input type="text" id="todo-in"><button onclick="window.addTodo()">추가</button></section>
+                <section class="card"><h2>⏳ D-Day</h2><div class="d-box">임원회의 마감: 1일</div></section>
+            </div>
+            <div class="b-col">
+                <section class="card"><h2>📂 결재 문서</h2><div class="flex-center"><strong class="text-cyan">28</strong><span>완료</span></div></section>
+                <section class="card"><h2>🔥 생산성 히트맵</h2><div class="heatmap" id="h-map"></div></section>
+                <section class="card"><h2>⚙️ 업무 자동화</h2><div class="t-row">AI 브리핑 ON</div><div class="t-row">보고서 자동생성 ON</div></section>
+                <section class="card"><h2>💵 환율</h2><strong class="text-cyan">1,378.60</strong></section>
+            </div>
+            <div class="b-col" style="flex:1.5;">
+                <section class="card tall"><h2>📈 업무 트렌드</h2><canvas id="trendChart"></canvas></section>
+                <section class="card tall"><h2>🧠 SWOT 분석</h2><div class="swot-grid"><div>S: AI 속도↑</div><div>W: 예산고갈</div><div>O: 신규모듈</div><div>T: 병목현상</div></div></section>
+            </div>
+            <div class="b-col">
+                <section class="card tall"><h2>📅 행정 캘린더</h2><div class="cal-grid" id="cal-grid"></div></section>
+                <section class="card"><h2>👥 팀 스캐너</h2><div class="team-row">김팀장(결재중)</div><div class="team-row">남수호(시스템)</div></section>
+            </div>
+            <div class="b-col" style="flex: 1.2;">
+                <section class="card"><h2>💬 메신저</h2><div class="chat-box" id="chat-box"></div><input type="text" id="chat-in"><button onclick="window.sendChat()">전송</button></section>
+                <section class="card"><h2>🖥️ 리소스 로그</h2><div class="log-box" id="log-box"></div></section>
+                <section class="card"><h2>💳 영수증 검역</h2><div class="upload-box" onclick="window.triggerAI()">AI 검역 시작</div></section>
+                <section class="card"><h2>🚀 메일 자동발송</h2><input type="email" id="mail-in" value="professor@hufs.ac.kr"><button onclick="window.sendMail()">발송</button></section>
+            </div>
         </div>
-    
+    </div>
     <script src="dashboard.js"></script>
 </body>
 </html>
