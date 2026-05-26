@@ -1,0 +1,14 @@
+{
+  "name": "hufs-one-file-cyber-dashboard",
+  "version": "5.5.0",
+  "description": "구글 로그인과 대시보드가 단일 HTML에 통합된 초고밀도 풀스택 전산망",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "body-parser": "^1.20.2",
+    "nodemailer": "^6.9.13"
+  }
+}

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>융합 데이터 행정 통합 고도화 마스터 시스템</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="auth-welcome-screen" class="auth-fullscreen-viewport">
+        <div class="welcome-auth-card">
+            <div class="cherry-blossom-logo">🌸</div>
+            <h2>행정업무 통합 대시보드</h2>
+            <p class="university-title">한국외국어대학교 차이나데이터큐레이션</p>
+            <p class="author-info">남수호 · 2022304606</p>
+            
+            <button class="btn-trigger-google-oauth" onclick="window.navigateToGooglePicker()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G">
+                Google 계정으로 로그인
+            </button>
+            
+            <div class="divider-text-line"><span>또는</span></div>
+            
+            <button class="btn-trigger-demo-auth" onclick="window.enterViaDemoMode()">
+                🔒 데모 모드로 체험하기
+            </button>
+            
+            <footer class="auth-footer-copyright">
+                © 2026 남수호 · 한국외국어대학교 · Powered by Claude, Anthropic
+            </footer>
+        </div>
+    </div>
+
+    <div id="auth-google-picker-screen" class="auth-fullscreen-viewport" style="display: none; background-color: #f0f4f9;">
+        <div class="google-account-picker-card">
+            <div class="google-header-brand">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="google-text-logo">
+                <h3>계정을 선택하세요.</h3>
+                <p><span class="app-domain-text" id="dynamic-domain-lbl">railway.app</span>(으)로 이동</p>
+            </div>
+            
+            <div class="account-selection-list">
+                <div class="account-item-row" onclick="window.completeAuthFlow('남수호', 'tyuietqw124@gmail.com')">
+                    <div class="avatar-circle img-suho">남</div>
+                    <div class="account-details">
+                        <span class="name">남수호</span>
+                        <span class="email">tyuietqw124@gmail.com</span>
+                    </div>
+                </div>
+                
+                <div class="account-item-row" onclick="window.completeAuthFlow('남수호(전산)', '2022304606@hufs.ac.kr')">
+                    <div class="avatar-circle img-hufs">외</div>
+                    <div class="account-details">
+                        <span class="name">남수호 (학부연구원 계정)</span>
+                        <span class="email">2022304606@hufs.ac.kr</span>
+                    </div>
+                </div>
+                
+                <div class="account-item-row" onclick="alert('다른 전산 계정 연동은 행정실 승인이 필요합니다.')">
+                    <div class="avatar-circle img-add">👤</div>
+                    <div class="account-details">
+                        <span class="name" style="color: #444746; font-weight: 500;">다른 계정 사용</span>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="google-picker-footer">
+                <div class="lang-selector">한국어 ▾</div>
+                <div class="footer-links">
+                    <span>도움말</span><span>개인정보처리방침</span><span>약관</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <div id="main-dashboard-viewport" class="screen-master-container" style="display: none;">
+        
+        <header class="main-header">
+            <div class="profile-area">
+                <div class="avatar" id="header-avatar-icon">수</div>
+                <div class="user-info">
+                    <h1>융합 데이터 행정 마스터 전산망 (Hyper-density Command Suite)</h1>
+                    <p><span id="user-display-name">남수호 학부연구원</span> · 한국외국어대학교 차이나데이터큐레이션전공 통제 계정</p>
+                </div>
+            </div>
+            <div class="header-status-grid">
+                <div class="status-card"><span>진행 타스크</span><strong>12</strong></div>
+                <div class="status-card"><span>결재 대기</span><strong>5</strong></div>
+                <div class="status-card font-pink"><span>D-1 긴급</span><strong>3</strong></div>
+                <div class="status-card font-mint"><span>주간 완료</span><strong>18 ▲</strong></div>
+                <div class="status-card"><span>연차 잔여</span><strong>11일</strong></div>
+            </div>
+            <div class="header-right">
+                <span id="current-time">2026.05.27 (수) 00:00:00</span>
+                <span class="system-badge-auth">🔒 Google Active OAuth 2.0 Connected</span>
+            </div>
+        </header>
+
+        <nav class="sub-nav-bar">
+            <button class="nav-item active">📊 메인 인트라넷 모니터</button>
+            <button class="nav-item" onclick="window.openApiModal()">⚙️ 전산망 보안 API 설정</button>
+            <button class="nav-item" onclick="document.getElementById('select-role').value='leader'; window.handleRoleChange();">👥 업무 분장 공유 센터</button>
+        </nav>
+
+        <div class="dashboard-grid">
+            <div class="grid-column">
+                <section class="card">
+                    <h2>📋 AI 데일리 브리핑 - 실시간 모듈</h2>
+                    <div class="briefing-container">
+                        <div class="brief-item border-pink">
+                            <span class="badge bg-pink">우선 1위</span>
+                            <p><strong>Q2 경영실적 보고서 최종 결재 상신</strong> (D-1)</p>
+                            <small>긴급도 최고 수준 · 본부장 최종 재가 대기</small>
+                        </div>
+                        <div class="brief-item border-gold">
+                            <span class="badge bg-gold">우선 2위</span>
+                            <p><strong>5/15 임원회의실 세팅 및 대외 배포</strong> (D-2)</p>
+                            <small>네트워크 이중화 자원 검증 요망</small>
+                        </div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2>📋 To-Do List (AI 우선순위 가중치)</h2>
+                    <ul class="todo-list">
+                        <li><input type="checkbox"> <span class="tag-pink">결재</span> Q2 실적보고서 송신 <span class="score">95점</span></li>
+                        <li><input type="checkbox"> <span class="tag-gold">회의</span> 임원회의실 하드웨어 점검 <span class="score">88점</span></li>
+                    </ul>
+                    <div class="todo-input-group">
+                        <input type="text" placeholder="새로운 행정 타스크 추가...">
+                        <button>추가</button>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2>📈 업무 진척도 및 처리 속도 트렌드</h2>
+                    <div class="chart-container"><canvas id="workTrendChart"></canvas></div>
+                </section>
+            </div>
+
+            <div class="grid-column">
+                <section class="card">
+                    <h2>⚙️ 업무 루틴 프로세스 자동화 제어 센터</h2>
+                    <div class="automation-control-panel">
+                        <div class="toggle-row">
+                            <span>🤖 09시 AI 브리핑 엔진 자동 가동</span>
+                            <label class="switch-box"><input type="checkbox" id="switch-briefing" onchange="window.toggleAutomation('briefing')"><span class="slider-round"></span></label>
+                        </div>
+                        <div class="toggle-row">
+                            <span>💳 법카 사용 내역 세법 교차 태깅</span>
+                            <label class="switch-box"><input type="checkbox" id="switch-receiptTagging" onchange="window.toggleAutomation('receiptTagging')"><span class="slider-round"></span></label>
+                        </div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2>✅ 반복업무 루틴 체크리스트 (실시간 동기화)</h2>
+                    <div class="routine-list-container" id="routine-checklist-box"></div>
+                </section>
+                <section class="card">
+                    <h2>📂 전자 결재 및 공문서 정산 트래커</h2>
+                    <div class="doc-stats">
+                        <div><strong>5</strong><p>기안</p></div>
+                        <div><strong>3</strong><p>대기</p></div>
+                        <div class="font-pink"><strong>1</strong><p>반려</p></div>
+                        <div class="font-mint"><strong>28</strong><p>완료</p></div>
+                    </div>
+                    <table class="doc-table">
+                        <tr><td><span class="badge-rect red">반려</span></td><td>학술연구비 정산 지출서</td><td>본부장</td></tr>
+                        <tr><td><span class="badge-rect orange">대기</span></td><td>Q2 실적보고서 V3</td><td>팀장</td></tr>
+                    </table>
+                </section>
+            </div>
+
+            <div class="grid-column">
+                <section class="card">
+                    <h2>💬 실시간 사내 SNS 협업 메신저 채널</h2>
+                    <div class="chat-wrapper-box">
+                        <div class="chat-display-area" id="chat-stream-box"></div>
+                        <div class="chat-input-row">
+                            <input type="text" id="input-chat-msg" placeholder="보안 사내 메시지 입력..." onkeypress="if(event.key==='Enter') window.sendSnsMessage()">
+                            <button onclick="window.sendSnsMessage()">전송</button>
+                        </div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2>⚡ 오늘의 종합 업무 컨디션 스코어</h2>
+                    <div class="condition-index-wrapper">
+                        <div class="condition-score-circle"><strong>84</strong><span>점</span></div>
+                        <div class="condition-desc">
+                            <h4 class="font-mint font-bold">● 컨디션 매우 양호</h4>
+                            <p>집중도 피크 세션입니다. KCI 논문 심사 조율 업무를 자동 배치하십시오.</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2>🔥 시간대별 업무 집중도 및 스트레스 히트맵</h2>
+                    <div class="heatmap-matrix" id="productivity-heatmap"></div>
+                </section>
+            </div>
+
+            <div class="grid-column">
+                <section class="card">
+                    <h2>👥 사내 팀원 실시간 접속 상태 스캐너</h2>
+                    <div class="team-status-grid-list">
+                        <div class="team-member-row"><span class="status-dot online"></span><strong>김팀장</strong> · 결재 검토 진행 중 <span class="zone-badge">행정실</span></div>
+                        <div class="team-member-row"><span class="status-dot online"></span><strong>남수호</strong> · 대시보드 인프라 세션 가동 <span class="zone-badge master">연구원</span></div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2>⚙️ 권한 격리 세션 및 공유 업무 분장</h2>
+                    <div class="role-selector-row">
+                        <select id="select-role" onchange="window.handleRoleChange()">
+                            <option value="team">팀원 연구원 권한 뷰</option>
+                            <option value="leader">경영 관리자(팀장) 권한 뷰</option>
+                        </select>
+                        <button id="btn-save-work" class="btn-save-work" style="display:none;" onclick="window.saveWorkAssignment()">💾 서버 동기화</button>
+                    </div>
+                    <div class="work-textarea-grid">
+                        <textarea id="text-leader-work" readonly></textarea>
+                        <textarea id="text-team-work" readonly></textarea>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2>📌 스마트 디지털 포스트잇 익스프레스</h2>
+                    <div class="postit-creator-bar">
+                        <input type="text" id="input-postit-txt" placeholder="메모 추가...">
+                        <select id="select-postit-color">
+                            <option value="#e0f2fe">🟩 민트</option>
+                            <option value="#fbe4eb">🟥 핑크</option>
+                        </select>
+                        <button onclick="window.addPostIt()">등록</button>
+                    </div>
+                    <div class="postit-render-matrix" id="postit-matrix-box"></div>
+                </section>
+                <section class="card">
+                    <h2>⏳ 전산 종합 D-Day 실시간 카운트다운</h2>
+                    <div class="dday-counter-matrix">
+                        <div class="dday-box box-pink"><h5>임원 보고 마감</h5><strong>D-1</strong></div>
+                        <div class="dday-box box-gold"><h5>제주 학술대회</h5><strong>D-8</strong></div>
+                        <div class="dday-box box-cyan"><h5>Q3 예산 수립</h5><strong>D-24</strong></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="dashboard-bottom-wider-grid">
+            <section class="card bottom-wide-card">
+                <h2>🚀 다중 기간별 결산 종합 분석 및 자동 구글 메일링 허브</h2>
+                <div class="wider-mailer-layout">
+                    <div class="selector-tabs-area">
+                        <button class="tab-btn active" onclick="window.switchClosingTab('daily')">일일 결산</button>
+                        <button class="tab-btn" onclick="window.switchClosingTab('weekly')">주간 결산</button>
+                        <button class="tab-btn" onclick="window.switchClosingTab('monthly')">월간 결산</button>
+                    </div>
+                    <div class="content-preview-area"><div class="view-panel" id="closing-report-view">분석 중...</div></div>
+                    <div class="email-dispatch-area">
+                        <input type="email" id="input-target-email" value="professor@hufs.ac.kr">
+                        <textarea id="text-mail-preview" readonly></textarea>
+                        <button class="btn-mail-dispatch" onclick="window.dispatchClosingEmail()">⚡ 결산 분석 리포트 이메일 즉시 자동 발송</button>
+                    </div>
+                </div>
+            </section>
+            <section class="card bottom-wide-card">
+                <h2>💳 연구비 · 법인카드 지출 영수증 AI 정산 검역 파싱 모듈 (Image 26)</h2>
+                <div class="invoice-split-layout">
+                    <div class="inv-uploader-zone" onclick="window.triggerInvoiceAnalysis()">
+                        <div class="icon-p">📁</div>
+                        <p>Invoice-HFHSZV60_genspark2.pdf (130.7KB)</p>
+                        <span class="fake-link-btn">⚡ AI 인공지능 정산 검역 가동</span>
+                    </div>
+                    <div class="inv-result-display-panel" id="invoice-result-view">
+                        <p class="placeholder-txt">명세서 영역을 누르시면 세법 무결성 검증 분석 리포트 데이터가 탑재됩니다.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="api-modal">
+        <div class="modal-window">
+            <div class="modal-header"><h3>⚙️ Google API 모듈 상태</h3><button class="close-btn" onclick="window.closeApiModal()">✕</button></div>
+            <div class="modal-body">
+                <div class="security-notice">
+                    <h4>🔒 Google OAuth 2.0 서비스 무결성 검증</h4>
+                    <p>현재 인스턴스 격리 시뮬레이션 인터페이스 모드로 계정 무결성이 실시간 유지 관리되고 있습니다.</p>
+                </div>
+                <button class="btn-confirm" onclick="window.closeApiModal()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
