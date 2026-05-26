@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Google 계정으로 로그인</title>
+    <style>
+        body { background-color: #f0f4f9; color: #1f1f1f; font-family: -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .google-picker-card { background: #ffffff; border-radius: 28px; width: 420px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); box-sizing: border-box; }
+        .google-logo { height: 24px; display: block; margin: 0 auto 16px auto; }
+        .header-box { text-align: center; margin-bottom: 24px; }
+        .header-box h3 { font-size: 24px; font-weight: 400; margin: 0 0 8px 0; color: #1f1f1f; }
+        .header-box p { font-size: 14px; color: #444746; margin: 0; }
+        .domain-highlight { color: #0b57d0; font-weight: 500; }
+        .account-list { border: 1px solid #c4c7c5; border-radius: 16px; overflow: hidden; margin-bottom: 20px; }
+        .account-row { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-bottom: 1px solid #c4c7c5; cursor: pointer; transition: background 0.2s; }
+        .account-row:last-child { border-bottom: none; }
+        .account-row:hover { background: #f0f4f9; }
+        .avatar-circle { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: white; }
+        .avatar-green { background-color: #146c43; }
+        .avatar-blue { background-color: #0d6efd; }
+        .details { display: flex; flex-direction: column; text-align: left; }
+        .details .name { font-size: 14px; font-weight: 500; color: #1f1f1f; }
+        .details .email { font-size: 12px; color: #444746; }
+        .footer-bar { display: flex; justify-content: space-between; font-size: 12px; color: #444746; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <div class="google-picker-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="google-logo">
+        <div class="header-box">
+            <h3>계정을 선택하세요.</h3>
+            <p><span class="domain-highlight" id="real-domain-lbl">railway.app</span>(으)로 이동</p>
+        </div>
+        <div class="account-list">
+            <div class="account-row" onclick="selectAndReturn('남수호', 'tyuietqw124@gmail.com')">
+                <div class="avatar-circle avatar-green">남</div>
+                <div class="details"><span class="name">남수호</span><span class="email">tyuietqw124@gmail.com</span></div>
+            </div>
+            <div class="account-row" onclick="selectAndReturn('남수호(연구원)', '2022304606@hufs.ac.kr')">
+                <div class="avatar-circle avatar-blue">외</div>
+                <div class="details"><span class="name">남수호 (학부연구원)</span><span class="email">2022304606@hufs.ac.kr</span></div>
+            </div>
+        </div>
+        <div class="footer-bar">
+            <div>한국어 ▾</div>
+            <div style="display:flex; gap:14px;"><span>도움말</span><span>개인정보처리방침</span><span>약관</span></div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("real-domain-lbl").innerText = window.opener ? window.opener.location.hostname : "railway.app";
+        function selectAndReturn(name, email) {
+            if(window.opener) { window.opener.postMessage({ type: "GOOGLE_AUTH_SUCCESS", name: name, email: email }, "*"); }
+            window.close();
+        }
+    </script>
+</body>
+</html>
