@@ -20,42 +20,58 @@
         fetchPostIts();
         fetchWorkAssignments();
         window.switchClosingTab('daily');
+        setupLiveConsoleSimulation();
     });
 
-    // 🚀 [버그 완전 박멸]: 인트라넷 1단계 게이트를 차단하고 2단계 계정 선택창 개설
-    window.navigateToGooglePicker = function() {
+    // 🚨 [오타 완전 박멸]: HTML의 showAccountPicker()와 완벽 매칭 수립
+    window.showAccountPicker = function() {
         document.getElementById("stage-login-gate").classList.add("hidden-stage");
         document.getElementById("stage-google-picker").classList.remove("hidden-stage");
     };
 
-    // 인증 취소 후 인트로 복귀
     window.cancelAuthFlow = function() {
         document.getElementById("stage-google-picker").classList.add("hidden-stage");
         document.getElementById("stage-login-gate").classList.remove("hidden-stage");
     };
 
-    // 🔒 [완전한 3단계 인프라 로드]: 계정 선택 완료 시 로그인 레이어를 완전 폭파 파기하고 대시보드 강제 스트레치
     window.executeFinalLogin = function(name, email) {
         currentAuthEmail = email;
         
-        // 데이터 대시보드 계정 연동 바인딩
         document.getElementById("user-display-name").innerHTML = `<strong>${name} 학부연구원 (${email})</strong>`;
         document.getElementById("header-avatar-icon").innerText = name.charAt(0);
         document.getElementById("input-target-email").value = email;
 
-        // 로그인 레이어 영구 파기 후 4열 전산 대시보드 100% 활성화
+        // 구형 스테이지 전원 차단 파기 및 대시보드 풀스크린 전력 공급
         document.getElementById("stage-google-picker").classList.add("hidden-stage");
         document.getElementById("stage-login-gate").classList.add("hidden-stage");
         document.getElementById("main-dashboard-viewport").classList.remove("hidden-stage");
         
-        // Chart.js 프레임 리사이징 동기화 리셋 트리거
         setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
     };
 
-    // 오프라인 데모 직접 바인딩 진입
     window.enterViaDemoMode = function() {
         window.executeFinalLogin("데모연구원", "demo-session@hufs.ac.kr");
     };
+
+    // 🖥️ [신규 기능 스크립트]: 리소스 인프라 실시간 콘솔 스트리밍 시뮬레이터
+    function setupLiveConsoleSimulation() {
+        const consoleBox = document.getElementById("live-system-console");
+        if(!consoleBox) return;
+        const logs = [
+            "[NET] Connected to HUFS proxy backbone network node.",
+            "[DB] SQLite memory cache replication synchronized successfully.",
+            "[SYS] CPU load factor stable at 4.2% / RAM allocation 128MB.",
+            "[AI] Invoice tagging model checking integrity standard cross-match.",
+            "[MAIL] Sendgrid SMTP routing tunnel is alive.",
+            "[SEC] SSL/TLS certificate validation check: Verified valid 2026."
+        ];
+        setInterval(() => {
+            const randomLog = logs[Math.floor(Math.random() * logs.length)];
+            const timeStr = new Date().toLocaleTimeString();
+            consoleBox.innerHTML += `<div class="log-line">[${timeStr}] ${randomLog}</div>`;
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }, 4000);
+    }
 
     function startClock() {
         const target = document.getElementById("current-time");
@@ -71,7 +87,7 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ key: key })
-        }).then(res => res.json()).then(switches => console.log("자동화 플러그 스왑완료"));
+        }).then(res => res.json()).then(switches => console.log("자동화 토글 변동 수립"));
     };
 
     window.handleRoleChange = function() {
@@ -186,7 +202,7 @@
         if(!ctx) return;
         new Chart(ctx, {
             type: 'line',
-            data: { labels: ['월', '화', '수', '목', '금'], datasets: [{ data: [75, 88, 92, 85, 95], borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,0.08)', borderWidth: 1.5, fill: true, tension:0.2 }] },
+            data: { labels: ['1주', '2주', '3주', '4주', '5주'], datasets: [{ label: '완료도', data: [75, 88, 92, 85, 98], borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,0.04)', borderWidth: 1.5, fill: true, tension:0.2 }] },
             options: { plugins: { legend: { display: false } }, responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: '#141830' }, ticks:{font:{size:7}, color:'#5a6496'} }, x: { grid: { display: false }, ticks:{font:{size:7}, color:'#5a6496'} } } }
         });
     }
