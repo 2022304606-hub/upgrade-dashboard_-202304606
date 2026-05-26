@@ -1,0 +1,14 @@
+window.mockLogin = function() {
+    const email = document.getElementById("email").value;
+    const pw = document.getElementById("pw").value;
+    
+    if(!email || !pw) {
+        alert("이메일과 비밀번호를 모두 입력하세요.");
+        return;
+    }
+    
+    // 로그인 성공 시 화면 전환
+    document.getElementById("auth-stage").classList.add("hidden");
+    document.getElementById("dash-stage").classList.remove("hidden");
+    document.getElementById("user-display-name").innerText = email.split('@')[0];
+};

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>행정업무 통합 대시보드</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div id="auth-stage" class="auth-stage">
+        <div class="google-login-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="g-logo">
+            <h2>로그인</h2>
+            <p>계정을 사용하여 로그인하세요.</p>
+            <div class="input-field">
+                <input type="email" id="email" placeholder="이메일 또는 휴대전화">
+                <input type="password" id="pw" placeholder="비밀번호 입력">
+            </div>
+            <div class="btn-box">
+                <button class="btn-next" onclick="window.mockLogin()">다음</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="dash-stage" class="dash-stage hidden">
+        <header class="top-header">
+            <div class="profile-info">
+                <div class="avatar">수</div>
+                <h1 id="user-display-name">남수호</h1>
+            </div>
+            <div class="header-stats">
+                <div class="stat"><span>총 결재</span><strong>32</strong></div>
+                <div class="stat"><span>대기</span><strong class="text-mint">5</strong></div>
+            </div>
+        </header>
+
+        <div class="bento-grid">
+            </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
